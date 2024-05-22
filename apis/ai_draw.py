@@ -41,10 +41,9 @@ def text_convert_image():
             draw_style = style
             break
 
-    img_url = asyncio.run(draw_service.text_to_image(uid, text, dialog_id, draw_style))
-    print(f"ai_draw... img_url: {img_url}")
+    draw_content = asyncio.run(draw_service.text_to_image(uid, text, dialog_id, draw_style))
 
-    return Response.success(200, "获取图片成功", img_url)
+    return Response.success(200, "获取图片成功", draw_content)
 
 
 @drawAI_bp.route("/<int:uid>", methods=["GET"])
