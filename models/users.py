@@ -18,5 +18,13 @@ class User(db.Model):
         self.email = email
         self.head_image = head_image
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "account": self.account,
+            "username": self.username,
+            "email": self.email,
+            "head_image": self.head_image
+        }
     def __repr__(self):
         return f'<User {self.username}>'

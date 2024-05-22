@@ -1,6 +1,8 @@
 from extensions import db
+from dataclasses import dataclass
 
 
+@dataclass
 class DialogList(db.Model):
     __tablename__ = 'dialog_list'
 
