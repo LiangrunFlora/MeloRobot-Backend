@@ -49,20 +49,31 @@ async def text_to_image(uid, text, dialog_id, style="探索无限"):
     return img_url
 
 
-def get_all_info(uid):
+def get_all_draw_info(uid):
     """
-        在用户重新登录时，获取所有信息
-        返回一个字典变量:
-            {
-                dialog_id : [draw_content...]
-            }
+        获取用户的所有绘画记录
+        uid: 用户id
     """
-    results = {}
+    results = draw_dao.get_all_dialog(uid=uid)
+    draw_dialogs = []
+    for result in results:
+        result = result.to_dict()
+        del result["message_list"]
+        draw_dialogs.append(result)
 
-    dialogs = draw_dao.get_all_dialog(uid=uid)
+    return draw_dialogs
 
-    for dialog in dialogs:
-        print(f"dialog: {dialog.id}")
-        results[dialog.id] = draw_dao.get_all_draw_content(dialog_id=dialog.id)
 
-    return results
+def get_draw_detail(dialog_id):
+    """
+        获取对话的详细信息
+    """
+    results = draw_dao.get_all_draw_content(dialog_id=dialog_id)
+    draw_contents = []
+    for result in results:
+        result = result.to_dict()
+        draw_content = {"id": result["id"], "message": "", "extension": result["url"], "message_type": 1,
+                        "u_message": result["text"], "uid": result["uid"]}
+        draw_contents.append(draw_content)
+
+    return draw_contents

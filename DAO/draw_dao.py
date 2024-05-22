@@ -2,7 +2,6 @@ import json
 
 from models.dialog_list import DialogList
 from models.draw_content import DrawContent
-from models.interaction import Interaction
 from extensions import db
 
 """
@@ -19,10 +18,7 @@ def insert_draw_content(url, uid, text, dialog_id):
 
 
 def get_all_draw_content(dialog_id):
-    responses = DrawContent.query.filter_by(dialog_id=dialog_id).all()
-    draw_contents = [json.dumps(item.to_dict()) for item in responses]
-
-    return draw_contents
+    return DrawContent.query.filter_by(dialog_id=dialog_id).all()
 
 
 """
@@ -48,3 +44,5 @@ def get_all_dialog(uid):
     return DialogList.query.filter_by(uid=uid).all()
 
 
+def get_draw_dialog_detail(dialog_id):
+    return DrawContent.query.filter_by(dialog_id=dialog_id).all()

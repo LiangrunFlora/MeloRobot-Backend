@@ -16,5 +16,13 @@ class DialogList(db.Model):
         self.message_list = message_list
         self.title = title
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'uid': self.uid,
+            'message_list': self.message_list,
+            'title': self.title
+        }
+
     def __repr__(self):
         return f'<DialogList {self.id}>'

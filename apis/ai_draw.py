@@ -1,5 +1,8 @@
+import json
+
 from flask import request
 from flask import Blueprint
+from utils.Response import Response
 from services import draw_service
 from utils.Response import Response
 from utils.draw_utils import styles
@@ -47,12 +50,23 @@ def text_convert_image():
 @drawAI_bp.route("/<int:uid>", methods=["GET"])
 def get_all_draws_chat(uid):
     """
+        获取用户的所有绘画记录
         uid: 用户id
+        id title uid
     """
-    user_all_draws_info = draw_service.get_all_info(uid)
+    draw_dialogs = draw_service.get_all_draw_info(uid)
+    print(draw_dialogs)
 
-    # for key, values in user_all_draws_info.items():
-    #     for value in values:
-    #         print(f"value: {value}")
+    return Response.success(200, "获取所有绘画记录成功", draw_dialogs)
 
-    return Response.success(200, "获取所有绘画记录成功", user_all_draws_info)
+
+@drawAI_bp.route("/<int:dialog_id>/detail", methods=["GET"])
+def get_draw_detail(dialog_id):
+    """
+        获取绘画对话的详细信息
+        dialog_id: 对话id
+    """
+    draw_detail = draw_service.get_draw_detail(dialog_id)
+    print(draw_detail)
+
+    return Response.success(200, "获取绘画对话详细信息成功", draw_detail)
