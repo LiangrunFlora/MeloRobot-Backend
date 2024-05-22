@@ -18,10 +18,9 @@ def insert_draw_content(url, uid, text, dialog_id):
 
 
 def get_all_draw_content(dialog_id):
-    responses = DrawContent.query.filter_by(dialog_id=dialog_id).all()
-    draw_contents = [json.dumps(item.to_dict()) for item in responses]
+    return DrawContent.query.filter_by(dialog_id=dialog_id).all()
 
-    return draw_contents
+
 """
     for table dialog_list
 """
@@ -43,3 +42,7 @@ def update_dialog(id, message_list):
 
 def get_all_dialog(uid):
     return DialogList.query.filter_by(uid=uid).all()
+
+
+def get_draw_dialog_detail(dialog_id):
+    return DrawContent.query.filter_by(dialog_id=dialog_id).all()
