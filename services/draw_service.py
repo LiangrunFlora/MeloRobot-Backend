@@ -1,7 +1,10 @@
+import time
+
 from DAO import draw_dao
 from utils import draw_utils
 from models.dialog_list import DialogList
 import json
+import asyncio
 
 
 def new_draw_chat(uid, title):
@@ -11,7 +14,15 @@ def new_draw_chat(uid, title):
     return draw_dao.insert_dialog(uid, title)
 
 
-def text_to_image(uid, text, dialog_id, style="探索无限"):
+async def get_task_id(text, style):
+    return await draw_utils.submit_request(text, style)
+
+
+async def get_img_url(taskId):
+    return await draw_utils.query_result(taskId)
+
+
+async def text_to_image(uid, text, dialog_id, style="探索无限"):
     """"
         根据文本获取图片
         并将相应信息插入数据库
@@ -20,11 +31,14 @@ def text_to_image(uid, text, dialog_id, style="探索无限"):
     # print("text: " + text)
     # print("style: " + style)
     # 发起请求
-    submit_response = draw_utils.submit_request(text, style)
-    taskId = submit_response.json()["data"]["taskId"]
-    # print("taskId: " + taskId)
+    taskId = await get_task_id(text, style)
+    print(f"draw_service... taskId: {taskId}")
+
+    time.sleep(10)
+
     # 查询结果
-    img_url = draw_utils.query_result(taskId)
+    img_url = await get_img_url(taskId)
+    print(f"draw_service... img_url: {img_url}")
 
     # 更新数据库
     new_image_content = draw_dao.insert_draw_content(url=img_url, uid=uid, text=text, dialog_id=dialog_id)

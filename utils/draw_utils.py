@@ -1,5 +1,6 @@
 import requests
 import json
+import aiohttp
 
 
 def get_access_token():
@@ -24,22 +25,28 @@ def get_access_token():
     return response.json()["access_token"]
 
 
-def submit_request(text, style):
+async def submit_request(text, style):
     url = "https://aip.baidubce.com/rpc/2.0/ernievilg/v1/txt2img?access_token=" + get_access_token()
 
-    payload = json.dumps({
+    payload = {
         "text": text,
         "resolution": "1024*1024",
         "style": style,
         "num": 1
-    })
+    }
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print("submit request: " + response.text)
+    # response = requests.request("POST", url, headers=headers, json=payload)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url=url, headers=headers, json=payload) as response:
+            data = await response.json()
+            print(f"submit_request... data: {data}")
+            taskId = data["data"]["taskId"]
+
+    print(f"submit_request... taskId: {taskId}")
 
     """
         返回示例
@@ -50,23 +57,29 @@ def submit_request(text, style):
             "log_id": 1770407384814199933
         }
     """
-    return response
+    return taskId
 
 
-def query_result(taskId):
+async def query_result(taskId):
     url = "https://aip.baidubce.com/rpc/2.0/ernievilg/v1/getImg?access_token=" + get_access_token()
 
-    payload = json.dumps({
+    payload = {
         "taskId": taskId
-    })
+    }
+
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.json()["data"]["img"])
-    # print("query result: " + response.text)
+    # response = requests.post(url, headers=headers, json=payload)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url=url, headers=headers, json=payload) as response:
+            data = await response.json()
+            print(f"query_result... data: {data}")
+            img_url = data["data"]["img"]
+
+    print(f"query_result... img_url: {img_url}")
 
     """
     {
@@ -82,13 +95,13 @@ def query_result(taskId):
             "text": "睡莲",
             "status": 1,
             "createTime": "2024-03-20 19:09:49",
-            "img": "",
+            "img": "ssssss",
             "waiting": "0"
         },
         "log_id": 1770407455383181085
     }
     """
-    return response.json()["data"]["img"]
+    return img_url
 
 
 styles = [
@@ -96,7 +109,3 @@ styles = [
     "未来主义", "像素风格", "概念艺术", "赛博朋克", "洛丽塔风格", "巴洛克风格",
     "超现实主义", "水彩画", "蒸汽波艺术", "油画", "卡通画"
 ]
-
-# taskId = 18759914
-# response = query_result(taskId)
-# print(response.json()["data"]["img"])
