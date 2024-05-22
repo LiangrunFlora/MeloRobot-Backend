@@ -3,6 +3,7 @@ from extensions import db
 from flask_cors import CORS
 import config
 from flask_migrate import Migrate
+from apis.ai_chat import chatAI_bp
 
 # from models.chat import Chat
 # from models.dialog_list import DialogList
@@ -16,6 +17,7 @@ app.config.from_object(config)
 db.init_app(app)
 migrate = Migrate(app, db)
 
+app.register_blueprint(chatAI_bp)
 
 CORS(app, resources=r'/*')
 if __name__ == '__main__':
