@@ -8,7 +8,7 @@ chatAI_bp = Blueprint(name="ai_chat", import_name=__name__, url_prefix="/ai_chat
 @chatAI_bp.post("")
 def get_response():
     data = request.json
-    message = data['message']
+    message = "注意：下面的问题使用简体中中来回答: " + data['message']+",别忘记使用简体中文回答。"
     image_base64 = data['image']
     uid = data['uid']
     detail_id = data['detail_id']
