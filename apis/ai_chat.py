@@ -17,7 +17,8 @@ def get_response():
         return Response.error(code=404, message="不存在当前帐号")
     else:
         if image_base64:
-            response = get_image_response(message, image_base64)
+            print("进入base64")
+            response = get_image_response(message, image_base64, uid=uid,  detail_id=detail_id)
         else:
             response = get_message_response(message, uid=uid, detail_id=detail_id)
         return response
