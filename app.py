@@ -1,4 +1,6 @@
-from flask import Flask
+import json
+
+from flask import Flask, request
 from extensions import db
 from flask_cors import CORS
 import config
@@ -7,6 +9,8 @@ from apis.weather_assistance import weather_bp
 from apis.ai_search import searchAI_bp
 from apis.ai_chat import chatAI_bp
 
+from apis.ai_chat import chatAI_bp
+from apis.ai_draw import drawAI_bp
 # from models.chat import Chat
 # from models.dialog_list import DialogList
 # from models.draw_content import DrawContent
@@ -22,7 +26,7 @@ migrate = Migrate(app, db)
 app.register_blueprint(chatAI_bp)
 app.register_blueprint(weather_bp)
 app.register_blueprint(searchAI_bp)
-
+app.register_blueprint(drawAI_bp)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 if __name__ == '__main__':
