@@ -77,9 +77,8 @@ async def query_result(taskId):
         async with session.post(url=url, headers=headers, json=payload) as response:
             data = await response.json()
             print(f"query_result... data: {data}")
-            img_url = data["data"]["img"]
 
-    print(f"query_result... img_url: {img_url}")
+    print(f"query_result... img_url: {data['data']['img']}")
 
     """
     {
@@ -101,7 +100,7 @@ async def query_result(taskId):
         "log_id": 1770407455383181085
     }
     """
-    return img_url
+    return data
 
 
 styles = [
