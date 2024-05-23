@@ -1,6 +1,8 @@
 from extensions import db
+from dataclasses import dataclass
 
 
+@dataclass
 class DialogList(db.Model):
     __tablename__ = 'dialog_list'
 
@@ -13,6 +15,14 @@ class DialogList(db.Model):
         self.uid = uid
         self.message_list = message_list
         self.title = title
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'uid': self.uid,
+            'message_list': self.message_list,
+            'title': self.title
+        }
 
     def __repr__(self):
         return f'<DialogList {self.id}>'
