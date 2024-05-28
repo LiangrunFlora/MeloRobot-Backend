@@ -31,7 +31,7 @@ def insert_dialog(uid, title, message_list=""):
     db.session.add(new_dialog)
     db.session.commit()
 
-    return new_dialog
+    return new_dialog.to_content()
 
 
 def update_dialog(id, message_list):

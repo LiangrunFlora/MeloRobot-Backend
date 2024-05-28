@@ -34,7 +34,7 @@ async def text_to_image(uid, text, dialog_id, style="探索无限"):
     taskId = await get_task_id(text, style)
     print(f"draw_service... taskId: {taskId}")
 
-    time.sleep(10)
+    time.sleep(8)
 
     # 查询结果
     response = await get_draw_content(taskId)

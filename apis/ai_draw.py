@@ -20,8 +20,8 @@ def initial_chat():
     uid = request.json.get("uid")
     title = request.json.get("title")
 
-    draw_service.new_draw_chat(uid, title)
-    return Response.success(200, "初始化绘画对话成功")
+    new_dialog = draw_service.new_draw_chat(uid, title)
+    return Response.success(200, "初始化绘画对话成功", data=new_dialog)
 
 
 @drawAI_bp.route("/image", methods=["POST"])

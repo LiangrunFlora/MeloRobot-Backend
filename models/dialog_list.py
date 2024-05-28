@@ -24,5 +24,13 @@ class DialogList(db.Model):
             'title': self.title
         }
 
+    def to_content(self):
+        return {
+            'id': self.id,
+            'uid': self.uid,
+            'interaction_list': self.message_list,
+            'title': self.title
+        }
+
     def __repr__(self):
         return f'<DialogList {self.id}>'

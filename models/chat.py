@@ -16,3 +16,11 @@ class Chat(db.Model):
 
     def __repr__(self):
         return f'<Chat {self.id}>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'interaction_list': self.interaction_list,
+            'uid': self.uid,
+            'title': self.title
+        }

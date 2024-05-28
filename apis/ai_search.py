@@ -34,7 +34,7 @@ def get_ai_summary(searchMsg):
     print(searchMsg)
     url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-4.0-8k-preview?access_token=" + get_access_token()
 
-    searchMsg += "给我提取这些信息的关键点，以问题和回答的形式写出3个问题，共500字的总结"
+    searchMsg += "给我提取这些信息的关键点，以问题和回答的形式写出3个问题，共300字的总结"
     payload = json.dumps({
         "messages": [
             {

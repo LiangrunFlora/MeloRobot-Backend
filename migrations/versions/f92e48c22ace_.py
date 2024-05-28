@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0b142851d332
+Revision ID: f92e48c22ace
 Revises: 
-Create Date: 2024-05-17 00:16:34.870589
+Create Date: 2024-05-22 21:47:04.266061
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = '0b142851d332'
+revision = 'f92e48c22ace'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -48,6 +48,7 @@ def upgrade():
     op.create_table('interaction',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('message', mysql.LONGTEXT(), nullable=False),
+    sa.Column('extension', mysql.LONGTEXT(), nullable=True),
     sa.Column('message_type', sa.Integer(), nullable=False),
     sa.Column('u_message', mysql.LONGTEXT(), nullable=True),
     sa.Column('uid', sa.Integer(), nullable=False),
@@ -56,7 +57,7 @@ def upgrade():
     )
     op.create_table('draw_content',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('url', sa.String(length=255), nullable=False),
+    sa.Column('url', sa.Text(), nullable=False),
     sa.Column('uid', sa.Integer(), nullable=False),
     sa.Column('text', sa.Text(), nullable=True),
     sa.Column('dialog_id', sa.Integer(), nullable=False),
