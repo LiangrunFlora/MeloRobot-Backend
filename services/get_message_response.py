@@ -43,7 +43,6 @@ def get_message_response(message: str, uid: int, detail_id: int):
     return Response(stream_with_context(generate_response()), content_type='text/plain')
 
 
-
 def get_image_response(message: str, image_base64: str, uid: int, detail_id: int):
     url = "http://localhost:11434/api/generate"
     images_list = []

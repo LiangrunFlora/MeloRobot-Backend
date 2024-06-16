@@ -18,7 +18,7 @@ from apis.ai_chat import chatAI_bp
 # from models.users import User
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='resources')
 app.config.from_object(config)
 db.init_app(app)
 migrate = Migrate(app, db)
